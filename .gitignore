@@ -1,0 +1,11 @@
+# YOLO weights (auto-downloaded on first run)
+*.pt
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Ultralytics outputs
+runs/
