@@ -5,7 +5,7 @@
 
 ---
 
-## 📋 목차
+## 목차
 
 1. [학습 목표](#1-학습-목표)
 2. [개발 환경 점검: 파이썬 버전 문제](#2-개발-환경-점검-파이썬-버전-문제)
@@ -32,11 +32,11 @@
 
 ## 2. 개발 환경 점검: 파이썬 버전 문제
 
-### 🔍 증상
+### 증상
 
 > "파이썬을 새로 받았는데 예전 버전이 실행돼요."
 
-### 🧪 진단 방법
+### 진단 방법
 
 어떤 실행 파일이 먼저 실행되는지 확인합니다. 아래는 PowerShell 명령입니다.
 
@@ -47,23 +47,23 @@ py list                 # Python Install Manager가 관리하는 버전 목록
 $env:Path -split ';'    # PATH 순서 확인
 ```
 
-### 📊 진단 결과
+### 진단 결과
 
 | 설치 경로 | 버전 | PATH 등록 |
 |---|---|---|
-| Python Install Manager (`AppData\Local\Python`) | 3.14.6 (예전 버전) | ✅ 등록됨 |
-| python.org 설치 파일 (`AppData\Local\Programs\Python\Python314`) | 3.14.8 (새로 받은 버전) | ❌ **등록 안 됨** |
+| Python Install Manager (`AppData\Local\Python`) | 3.14.6 (예전 버전) | 등록됨 |
+| python.org 설치 파일 (`AppData\Local\Programs\Python\Python314`) | 3.14.8 (새로 받은 버전) | **등록 안 됨** |
 
-### 💡 원인
+### 원인
 
 새 버전을 설치할 때 **"Add python.exe to PATH"** 옵션을 켜지 않았습니다. 그래서 `python` 명령은 PATH에 이미 등록된 예전 설치본을 실행합니다.
 
-### ✅ 해결 방법 (둘 중 하나)
+### 해결 방법 (둘 중 하나)
 
 1. **Install Manager로 통일 (추천)**: python.org 설치본을 제거하고 `py install --update`를 실행합니다.
 2. **python.org 설치본으로 통일**: 설치 파일에서 *Modify*를 눌러 PATH 옵션을 켭니다. 그다음 *설정 → 앱 → 고급 앱 설정 → 앱 실행 별칭*에서 `python.exe`, `python3.exe` 별칭을 끕니다.
 
-> 📌 **핵심 포인트**: 파이썬이 여러 개 있으면 PATH에서 **먼저 나오는 것**이 실행됩니다. `pip`도 그 파이썬에 연결되므로 패키지가 엉뚱한 곳에 설치될 수 있습니다. `python -m pip`처럼 실행하면 지금 쓰는 파이썬에 정확히 설치됩니다.
+> **핵심 포인트**: 파이썬이 여러 개 있으면 PATH에서 **먼저 나오는 것**이 실행됩니다. `pip`도 그 파이썬에 연결되므로 패키지가 엉뚱한 곳에 설치될 수 있습니다. `python -m pip`처럼 실행하면 지금 쓰는 파이썬에 정확히 설치됩니다.
 
 ---
 
@@ -83,7 +83,7 @@ python -m pip install -U ultralytics
 | torch | 2.14.1 (CPU) |
 | opencv-python | 5.0.0 |
 
-### 🐛 트러블슈팅: `WinError 1114`
+### 트러블슈팅: `WinError 1114`
 
 ```
 OSError: [WinError 1114] DLL 초기화 루틴을 실행할 수 없습니다.
@@ -96,13 +96,13 @@ Error loading "...\torch\lib\c10.dll" or one of its dependencies.
 | **확인** | `Test-Path C:\Windows\System32\vcruntime140_1.dll`의 결과가 `False` |
 | **해결** | `winget install --id Microsoft.VCRedist.2015+.x64 -e` |
 
-> 📌 **핵심 포인트**: `import torch`에서 DLL 오류가 나면 대부분 파이썬 코드가 아니라 **Windows 런타임 라이브러리** 문제입니다.
+> **핵심 포인트**: `import torch`에서 DLL 오류가 나면 대부분 파이썬 코드가 아니라 **Windows 런타임 라이브러리** 문제입니다.
 
 ---
 
 ## 4. 실습 1: 웹캠 객체 탐지
 
-📄 파일: [`webcam_detect.py`](webcam_detect.py)
+파일: [`webcam_detect.py`](webcam_detect.py)
 
 ### 개념: 객체 탐지란?
 
@@ -116,7 +116,7 @@ Error loading "...\torch\lib\c10.dll" or one of its dependencies.
 
 | 모델 | 특징 |
 |---|---|
-| `yolo26n.pt` | nano: 가장 빠름, CPU 실시간에 적합 ⭐ 기본값 |
+| `yolo26n.pt` | nano: 가장 빠름, CPU 실시간에 적합 (기본값) |
 | `yolo26s.pt` | small |
 | `yolo26m.pt` | medium |
 | `yolo26l.pt` | large |
@@ -186,13 +186,13 @@ finally:
     cv2.destroyAllWindows()
 ```
 
-> 📌 **핵심 포인트**: `try / finally`를 쓰면 프로그램이 비정상 종료돼도 웹캠이 해제되므로 다른 프로그램에서 카메라를 계속 쓸 수 있습니다.
+> **핵심 포인트**: `try / finally`를 쓰면 프로그램이 비정상 종료돼도 웹캠이 해제되므로 다른 프로그램에서 카메라를 계속 쓸 수 있습니다.
 
 ---
 
 ## 5. 실습 2: 웹캠 세그멘테이션
 
-📄 파일: [`webcam_segment.py`](webcam_segment.py)
+파일: [`webcam_segment.py`](webcam_segment.py)
 
 ### 개념: 탐지 vs 세그멘테이션
 
@@ -228,7 +228,7 @@ num_masks = 0 if result.masks is None else len(result.masks)
 ```
 - 객체가 하나도 없으면 `result.masks`는 `None`입니다. 그래서 `None`인지 먼저 확인해야 합니다.
 
-> 📌 **핵심 포인트**: Ultralytics는 작업(task)이 달라도 API가 같습니다. **모델 파일만 바꾸면** 탐지, 세그멘테이션, 포즈 추정으로 전환할 수 있습니다.
+> **핵심 포인트**: Ultralytics는 작업(task)이 달라도 API가 같습니다. **모델 파일만 바꾸면** 탐지, 세그멘테이션, 포즈 추정으로 전환할 수 있습니다.
 
 ---
 
@@ -259,7 +259,7 @@ git branch -M main                                   # 브랜치 이름을 main�
 gh repo create vision --public --source=. --remote=origin --push
 ```
 
-> 📌 **핵심 포인트**: `gh repo create --source=. --push` 한 줄로 **저장소 생성, 원격 연결, 푸시**를 모두 처리합니다.
+> **핵심 포인트**: `gh repo create --source=. --push` 한 줄로 **저장소 생성, 원격 연결, 푸시**를 모두 처리합니다.
 
 ---
 
@@ -275,7 +275,7 @@ gh repo create vision --public --source=. --remote=origin --push
 | 세그멘테이션 | 모델을 `-seg`로 바꾸고 `result.masks` 사용 |
 | GitHub | `.gitignore`로 가중치 제외, `gh repo create` |
 
-### 🧠 복습 퀴즈
+### 복습 퀴즈
 
 <details>
 <summary><b>Q1.</b> 새 파이썬을 설치했는데 <code>python --version</code>에 예전 버전이 나옵니다. 가장 먼저 확인할 것은?</summary>
@@ -307,7 +307,7 @@ Microsoft Visual C++ 재배포 패키지가 없는 경우가 대부분입니다.
 용량이 크고, Ultralytics가 처음 실행할 때 자동으로 다운로드하기 때문입니다.
 </details>
 
-### 🚀 도전 과제
+### 도전 과제
 
 - [ ] `--model yolo26n-pose.pt`로 **포즈 추정**을 해 보세요.
 - [ ] `model.track(..., persist=True)`로 **객체 추적(ID 부여)** 을 해 보세요.
